@@ -1,0 +1,187 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem;
+}
+
+.auth-wrapper {
+  width: 100%;
+  max-width: 500px;
+}
+
+.auth-card {
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  
+  .mat-mdc-card-header {
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    color: white;
+    padding: 2rem 2rem 1rem;
+    text-align: center;
+    
+    .auth-icon {
+      font-size: 3rem;
+      width: 3rem;
+      height: 3rem;
+      margin-bottom: 1rem;
+    }
+    
+    .mat-mdc-card-title {
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    
+    .mat-mdc-card-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+  }
+  
+  .mat-mdc-card-content {
+    padding: 2rem;
+  }
+}
+
+.auth-form {
+  .mat-mdc-form-field {
+    margin-bottom: 1rem;
+  }
+  
+  .form-actions {
+    margin-top: 1.5rem;
+    
+    button {
+      height: 48px;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+  }
+  
+  .form-footer {
+    text-align: center;
+    margin-top: 1rem;
+    
+    .forgot-password {
+      color: #666;
+      text-decoration: none;
+      
+      &:hover {
+        color: #1976d2;
+      }
+    }
+  }
+}
+
+.divider {
+  text-align: center;
+  margin: 2rem 0;
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e0e0e0;
+  }
+  
+  span {
+    background: white;
+    padding: 0 1rem;
+    color: #666;
+    font-size: 0.9rem;
+  }
+}
+
+.register-section {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  
+  p {
+    margin-bottom: 1rem;
+    color: #666;
+  }
+  
+  button {
+    height: 40px;
+  }
+}
+
+.form-check {
+  .form-check-input {
+    margin-right: 0.5rem;
+  }
+  
+  .form-check-label {
+    font-size: 0.9rem;
+    color: #666;
+    
+    a {
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .auth-container {
+    padding: 1rem;
+  }
+  
+  .auth-card {
+    .mat-mdc-card-header {
+      padding: 1.5rem 1.5rem 1rem;
+      
+      .auth-icon {
+        font-size: 2.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+      }
+      
+      .mat-mdc-card-title {
+        font-size: 1.5rem;
+      }
+    }
+    
+    .mat-mdc-card-content {
+      padding: 1.5rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 0.5rem;
+  }
+  
+  .auth-card {
+    .mat-mdc-card-header {
+      padding: 1rem 1rem 0.5rem;
+      
+      .auth-icon {
+        font-size: 2rem;
+        width: 2rem;
+        height: 2rem;
+      }
+      
+      .mat-mdc-card-title {
+        font-size: 1.3rem;
+      }
+    }
+    
+    .mat-mdc-card-content {
+      padding: 1rem;
+    }
+  }
+}

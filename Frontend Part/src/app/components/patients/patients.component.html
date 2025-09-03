@@ -1,0 +1,283 @@
+<div class="patients-container">
+  <!-- Header Section -->
+  <div class="header-section mb-4">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <h1 class="page-title">
+          <mat-icon class="me-2">people</mat-icon>
+          Patient Management
+        </h1>
+        <p class="page-subtitle">Manage patient records and information</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <button mat-raised-button color="primary" (click)="openAddDialog()">
+          <mat-icon class="me-2">add</mat-icon>
+          Add New Patient
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Search and Filter Section -->
+  <mat-card class="mb-4">
+    <mat-card-content>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Search Patients</mat-label>
+            <input matInput 
+                   [(ngModel)]="searchTerm" 
+                   (input)="applyFilter()"
+                   placeholder="Search by name, email, or phone">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <div class="d-flex gap-2">
+            <button mat-stroked-button>
+              <mat-icon class="me-2">filter_list</mat-icon>
+              Filter
+            </button>
+            <button mat-stroked-button>
+              <mat-icon class="me-2">download</mat-icon>
+              Export
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Patients Table -->
+  <mat-card>
+    <mat-card-content>
+      <div class="table-responsive">
+        <table mat-table [dataSource]="filteredDataSource" matSort class="w-100">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let patient">{{patient.id}}</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let patient">
+              <div class="patient-name">
+                <strong>{{patient.name}}</strong>
+                <small class="text-muted d-block">{{patient.bloodGroup}}</small>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Age Column -->
+          <ng-container matColumnDef="age">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Age</th>
+            <td mat-cell *matCellDef="let patient">{{patient.age}} yrs</td>
+          </ng-container>
+
+          <!-- Gender Column -->
+          <ng-container matColumnDef="gender">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Gender</th>
+            <td mat-cell *matCellDef="let patient">
+              <mat-chip [color]="patient.gender === 'Male' ? 'primary' : 'accent'" selected>
+                {{patient.gender}}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <!-- Phone Column -->
+          <ng-container matColumnDef="phone">
+            <th mat-header-cell *matHeaderCellDef>Phone</th>
+            <td mat-cell *matCellDef="let patient">{{patient.phone}}</td>
+          </ng-container>
+
+          <!-- Email Column -->
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let patient">{{patient.email}}</td>
+          </ng-container>
+
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <td mat-cell *matCellDef="let patient">
+              <mat-chip [color]="getStatusColor(patient.status)" selected>
+                {{patient.status}}
+              </mat-chip>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let patient">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openEditDialog(patient)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item (click)="deletePatient(patient)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>visibility</mat-icon>
+                  <span>View Details</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" 
+                     showFirstLastButtons 
+                     aria-label="Select page of patients">
+      </mat-paginator>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Patient Form Dialog -->
+  <div class="modal" *ngIf="selectedPatient !== null || isAddMode" (click)="closeDialog()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{isAddMode ? 'Add New Patient' : 'Edit Patient'}}</h3>
+        <button mat-icon-button (click)="closeDialog()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      
+      <form [formGroup]="patientForm" (ngSubmit)="savePatient()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Full Name</mat-label>
+                <input matInput formControlName="name" placeholder="Enter full name">
+                <mat-error *ngIf="patientForm.get('name')?.hasError('required')">
+                  Name is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Age</mat-label>
+                <input matInput type="number" formControlName="age" placeholder="Enter age">
+                <mat-error *ngIf="patientForm.get('age')?.hasError('required')">
+                  Age is required
+                </mat-error>
+                <mat-error *ngIf="patientForm.get('age')?.hasError('min') || patientForm.get('age')?.hasError('max')">
+                  Age must be between 0 and 150
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Gender</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option value="Male">Male</mat-option>
+                  <mat-option value="Female">Female</mat-option>
+                  <mat-option value="Other">Other</mat-option>
+                </mat-select>
+                <mat-error *ngIf="patientForm.get('gender')?.hasError('required')">
+                  Gender is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Blood Group</mat-label>
+                <mat-select formControlName="bloodGroup">
+                  <mat-option value="A+">A+</mat-option>
+                  <mat-option value="A-">A-</mat-option>
+                  <mat-option value="B+">B+</mat-option>
+                  <mat-option value="B-">B-</mat-option>
+                  <mat-option value="AB+">AB+</mat-option>
+                  <mat-option value="AB-">AB-</mat-option>
+                  <mat-option value="O+">O+</mat-option>
+                  <mat-option value="O-">O-</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Phone Number</mat-label>
+                <input matInput formControlName="phone" placeholder="Enter phone number">
+                <mat-error *ngIf="patientForm.get('phone')?.hasError('required')">
+                  Phone number is required
+                </mat-error>
+                <mat-error *ngIf="patientForm.get('phone')?.hasError('pattern')">
+                  Please enter a valid 10-digit phone number
+                </mat-error>
+              </mat-form-field>
+            </div>
+            
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="Enter email">
+                <mat-error *ngIf="patientForm.get('email')?.hasError('required')">
+                  Email is required
+                </mat-error>
+                <mat-error *ngIf="patientForm.get('email')?.hasError('email')">
+                  Please enter a valid email address
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Address</mat-label>
+                <textarea matInput formControlName="address" rows="3" placeholder="Enter address"></textarea>
+                <mat-error *ngIf="patientForm.get('address')?.hasError('required')">
+                  Address is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Emergency Contact</mat-label>
+                <input matInput formControlName="emergencyContact" placeholder="Enter emergency contact">
+              </mat-form-field>
+            </div>
+            
+            <div class="col-md-6">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Medical History</mat-label>
+                <textarea matInput formControlName="medicalHistory" rows="2" placeholder="Enter medical history"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button mat-button type="button" (click)="closeDialog()">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="patientForm.invalid">
+            {{isAddMode ? 'Add Patient' : 'Update Patient'}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

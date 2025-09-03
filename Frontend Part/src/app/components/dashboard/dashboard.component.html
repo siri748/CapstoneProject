@@ -1,0 +1,141 @@
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <div class="welcome-section mb-4">
+    <h1 class="welcome-title">Welcome to Hospital Management System</h1>
+    <p class="welcome-subtitle">Here's what's happening today</p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="row mb-4">
+    <div class="col-12 col-md-6 col-lg-3 mb-3" *ngFor="let stat of stats">
+      <mat-card class="stat-card h-100">
+        <mat-card-content class="d-flex align-items-center">
+          <div class="stat-icon me-3">
+            <mat-icon [color]="stat.color" class="stat-icon-size">{{stat.icon}}</mat-icon>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-value mb-1">{{stat.value}}</h3>
+            <p class="stat-title mb-1">{{stat.title}}</p>
+            <span class="stat-change text-success">{{stat.change}}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Main Content Row -->
+  <div class="row">
+    <!-- Recent Appointments -->
+    <div class="col-12 col-lg-8 mb-4">
+      <mat-card class="h-100">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon class="me-2">event</mat-icon>
+            Recent Appointments
+          </mat-card-title>
+          <mat-card-subtitle>Today's scheduled appointments</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="table-responsive">
+            <table mat-table [dataSource]="recentAppointments" class="w-100">
+              <ng-container matColumnDef="patient">
+                <th mat-header-cell *matHeaderCellDef>Patient</th>
+                <td mat-cell *matCellDef="let appointment">{{appointment.patient}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="doctor">
+                <th mat-header-cell *matHeaderCellDef>Doctor</th>
+                <td mat-cell *matCellDef="let appointment">{{appointment.doctor}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="time">
+                <th mat-header-cell *matHeaderCellDef>Time</th>
+                <td mat-cell *matCellDef="let appointment">{{appointment.time}}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef>Status</th>
+                <td mat-cell *matCellDef="let appointment">
+                  <mat-chip [color]="getStatusColor(appointment.status)" selected>
+                    {{appointment.status}}
+                  </mat-chip>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="['patient', 'doctor', 'time', 'status']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['patient', 'doctor', 'time', 'status'];"></tr>
+            </table>
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="d-flex justify-content-end">
+          <button mat-button color="primary">View All</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+
+    <!-- Department Statistics -->
+    <div class="col-12 col-lg-4 mb-4">
+      <mat-card class="h-100">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon class="me-2">business</mat-icon>
+            Department Overview
+          </mat-card-title>
+          <mat-card-subtitle>Current occupancy rates</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="department-item" *ngFor="let dept of departmentStats">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="department-name">{{dept.name}}</span>
+              <span class="department-patients">{{dept.patients}} patients</span>
+            </div>
+            <mat-progress-bar 
+              [value]="dept.occupancy" 
+              color="primary"
+              class="mb-3">
+            </mat-progress-bar>
+            <div class="d-flex justify-content-between">
+              <small class="text-muted">Occupancy</small>
+              <small class="text-muted">{{dept.occupancy}}%</small>
+            </div>
+            <mat-divider class="my-3"></mat-divider>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="row">
+    <div class="col-12">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon class="me-2">flash_on</mat-icon>
+            Quick Actions
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="d-flex flex-wrap gap-3">
+            <button mat-raised-button color="primary" class="quick-action-btn">
+              <mat-icon class="me-2">add</mat-icon>
+              New Patient
+            </button>
+            <button mat-raised-button color="accent" class="quick-action-btn">
+              <mat-icon class="me-2">event</mat-icon>
+              Schedule Appointment
+            </button>
+            <button mat-raised-button color="warn" class="quick-action-btn">
+              <mat-icon class="me-2">receipt</mat-icon>
+              Generate Bill
+            </button>
+            <button mat-raised-button color="success" class="quick-action-btn">
+              <mat-icon class="me-2">report</mat-icon>
+              View Reports
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

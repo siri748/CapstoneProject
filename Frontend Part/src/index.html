@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hospital Management System</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Comprehensive Hospital Management System for modern healthcare facilities">
+  <meta name="keywords" content="hospital, management, healthcare, patients, doctors, appointments">
+  <meta name="author" content="Hospital Management System">
+  
+  <!-- Material Icons -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  
+  <!-- PWA Meta Tags -->
+  <meta name="theme-color" content="#1976d2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="HMS">
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Hospital Management System">
+  <meta property="og:description" content="Comprehensive Hospital Management System for modern healthcare facilities">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hospital Management System">
+  <meta name="twitter:description" content="Comprehensive Hospital Management System for modern healthcare facilities">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body class="mat-typography">
+  <app-root></app-root>
+  
+  <!-- Loading Screen -->
+  <div id="loading-screen" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    z-index: 9999;
+    font-family: 'Roboto', sans-serif;
+  ">
+    <div style="
+      width: 80px;
+      height: 80px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    "></div>
+    <h2 style="margin: 0; font-weight: 300; letter-spacing: 1px;">Hospital Management System</h2>
+    <p style="margin: 10px 0 0 0; opacity: 0.8;">Loading...</p>
+  </div>
+  
+  <style>
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    #loading-screen {
+      transition: opacity 0.5s ease-out;
+    }
+    
+    #loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+  
+  <script>
+    // Hide loading screen when app is ready
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        const loadingScreen = document.getElementById('loading-screen');
+        if (loadingScreen) {
+          loadingScreen.classList.add('fade-out');
+          setTimeout(function() {
+            loadingScreen.style.display = 'none';
+          }, 500);
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,287 @@
+/* You can add global styles to this file, and also import other style files */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Material Design Overrides */
+.mat-mdc-card {
+  border-radius: 12px !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
+  transition: box-shadow 0.3s ease;
+}
+
+.mat-mdc-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.mat-mdc-button {
+  border-radius: 25px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+}
+
+.mat-mdc-raised-button {
+  border-radius: 25px !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  padding: 0.75rem 2rem !important;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
+
+.mat-mdc-form-field-appearance-outline .mat-mdc-form-field-wrapper {
+  margin: 0;
+}
+
+/* Custom Utility Classes */
+.text-primary {
+  color: #1976d2 !important;
+}
+
+.text-accent {
+  color: #ff4081 !important;
+}
+
+.text-warn {
+  color: #f44336 !important;
+}
+
+.text-success {
+  color: #4caf50 !important;
+}
+
+.bg-primary {
+  background-color: #1976d2 !important;
+}
+
+.bg-accent {
+  background-color: #ff4081 !important;
+}
+
+.bg-warn {
+  background-color: #f44336 !important;
+}
+
+.bg-success {
+  background-color: #4caf50 !important;
+}
+
+/* Responsive Utilities */
+@media (max-width: 768px) {
+  .d-md-none {
+    display: block !important;
+  }
+  
+  .d-md-block {
+    display: none !important;
+  }
+  
+  .text-md-end {
+    text-align: left !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Animation Classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Status Indicators */
+.status-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.status-active {
+  background-color: #4caf50;
+}
+
+.status-inactive {
+  background-color: #f44336;
+}
+
+.status-pending {
+  background-color: #ff9800;
+}
+
+/* Card Hover Effects */
+.hover-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.hover-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Form Styles */
+.form-section {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h3 {
+  color: #1976d2;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+/* Table Enhancements */
+.enhanced-table {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.enhanced-table .mat-mdc-header-row {
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+  color: white;
+}
+
+.enhanced-table .mat-mdc-header-cell {
+  color: white !important;
+  font-weight: 600;
+}
+
+/* Button Groups */
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.button-group .mat-mdc-button {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Alert Styles */
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  border-left: 4px solid;
+}
+
+.alert-success {
+  background-color: #e8f5e8;
+  border-color: #4caf50;
+  color: #2e7d32;
+}
+
+.alert-warning {
+  background-color: #fff3e0;
+  border-color: #ff9800;
+  color: #f57c00;
+}
+
+.alert-error {
+  background-color: #ffebee;
+  border-color: #f44336;
+  color: #c62828;
+}
+
+.alert-info {
+  background-color: #e3f2fd;
+  border-color: #2196f3;
+  color: #1976d2;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
